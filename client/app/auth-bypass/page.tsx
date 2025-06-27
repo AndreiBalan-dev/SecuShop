@@ -1,6 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import {
+  ExclamationTriangleIcon,
+  ShieldCheckIcon,
+  UserIcon,
+  ArrowLeftOnRectangleIcon,
+} from "@heroicons/react/24/outline";
 
 export default function AuthBypassPage() {
   const router = useRouter();
@@ -8,13 +14,15 @@ export default function AuthBypassPage() {
   return (
     <>
       <Navbar />
-      <main className="max-w-4xl mx-auto px-6 py-16 text-gray-800 dark:text-gray-200 space-y-14">
-        {/* Title Section */}
+      <main className="max-w-5xl mx-auto px-6 py-16 space-y-16 text-neutral-200">
+        {/* Title */}
         <section className="text-center space-y-4">
-          <h1 className="text-5xl font-bold text-purple-600">🚪 Auth Bypass</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
-            Ocolirea autentificării (Auth Bypass) înseamnă accesarea de zone
-            protejate fără a fi logat sau fără a avea drepturile necesare.
+          <h1 className="text-5xl font-extrabold text-purple-400">
+            🚪 Auth Bypass
+          </h1>
+          <p className="text-lg text-neutral-400 max-w-2xl mx-auto">
+            Ocolirea autentificării înseamnă accesarea zonelor protejate fără
+            permisiuni. Aici vezi cum funcționează și cum te protejezi.
           </p>
         </section>
 
@@ -22,20 +30,33 @@ export default function AuthBypassPage() {
         <section className="grid sm:grid-cols-2 gap-6">
           <button
             onClick={() => router.push("/auth-bypass/vulnerable")}
-            className="bg-purple-100 hover:bg-purple-200 dark:bg-purple-900/40 dark:hover:bg-purple-900/60 border border-purple-400 text-purple-600 font-semibold px-6 py-4 rounded-xl shadow-md transition"
+            className="flex flex-col items-start bg-purple-600/10 hover:bg-purple-600/20 border border-purple-600 text-purple-300 font-semibold px-6 py-5 rounded-xl shadow transition"
           >
-            ⚠️ Vezi varianta vulnerabilă
+            <span className="flex items-center gap-2 text-lg">
+              <ExclamationTriangleIcon className="h-6 w-6" />
+              Varianta vulnerabilă
+            </span>
+            <p className="text-sm mt-1">
+              Verifică doar <code>localStorage</code>. Oricine poate fenta
+              accesul.
+            </p>
           </button>
           <button
             onClick={() => router.push("/auth-bypass/protected")}
-            className="bg-green-100 hover:bg-green-200 dark:bg-green-900/40 dark:hover:bg-green-900/60 border border-green-400 text-green-600 font-semibold px-6 py-4 rounded-xl shadow-md transition"
+            className="flex flex-col items-start bg-green-600/10 hover:bg-green-600/20 border border-green-600 text-green-300 font-semibold px-6 py-5 rounded-xl shadow transition"
           >
-            ✅ Vezi varianta protejată
+            <span className="flex items-center gap-2 text-lg">
+              <ShieldCheckIcon className="h-6 w-6" />
+              Varianta protejată
+            </span>
+            <p className="text-sm mt-1">
+              Verificare securizată în backend cu sesiuni HTTP-only.
+            </p>
           </button>
         </section>
 
-        {/* Auth Buttons */}
-        <section className="flex flex-wrap gap-4 justify-center">
+        {/* Auth Actions */}
+        <section className="grid md:grid-cols-3 gap-4">
           <button
             onClick={async () => {
               await fetch("http://localhost:4000/api/auth/login", {
@@ -47,11 +68,11 @@ export default function AuthBypassPage() {
               localStorage.setItem("role", "admin");
               alert("Ai fost logat ca admin!");
             }}
-            className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded"
+            className="flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-3 rounded-lg shadow transition"
           >
-            🔑 Login ca Admin
+            <UserIcon className="h-5 w-5" />
+            Login ca Admin
           </button>
-
           <button
             onClick={async () => {
               await fetch("http://localhost:4000/api/auth/login", {
@@ -63,11 +84,11 @@ export default function AuthBypassPage() {
               localStorage.setItem("role", "user");
               alert("Ai fost logat ca user!");
             }}
-            className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded"
+            className="flex items-center justify-center gap-2 bg-neutral-700 hover:bg-neutral-800 text-white px-4 py-3 rounded-lg shadow transition"
           >
-            👤 Login ca User
+            <UserIcon className="h-5 w-5" />
+            Login ca User
           </button>
-
           <button
             onClick={async () => {
               await fetch("http://localhost:4000/api/auth/logout", {
@@ -77,95 +98,79 @@ export default function AuthBypassPage() {
               localStorage.removeItem("role");
               alert("Ai fost delogat!");
             }}
-            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+            className="flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-lg shadow transition"
           >
-            🚪 Logout
+            <ArrowLeftOnRectangleIcon className="h-5 w-5" />
+            Logout
           </button>
         </section>
 
-        {/* Vulnerability Explanation */}
-        <section className="bg-purple-100 dark:bg-purple-900/20 border-l-4 border-purple-500 p-6 rounded-md shadow space-y-4 text-sm">
-          <h2 className="text-lg font-semibold text-purple-700 dark:text-purple-200">
-            ⚠️ Varianta vulnerabilă
+        {/* Vulnerable Explanation */}
+        <section className="bg-purple-600/10 border border-purple-600 rounded-lg p-6 space-y-4">
+          <h2 className="text-xl font-bold text-purple-300 flex items-center gap-2">
+            <ExclamationTriangleIcon className="h-5 w-5" />
+            Varianta vulnerabilă
           </h2>
-          <p>
-            Aplicația verifică doar <code>localStorage</code> ca să decidă dacă
-            ești admin. Acesta poate fi modificat ușor de atacator.
+          <p className="text-sm text-neutral-300">
+            Aplicația verifică doar <code>localStorage</code> pentru rol.
+            Oricine poate rula acest cod în consola browserului:
           </p>
-
-          <div className="bg-white dark:bg-purple-950 border border-purple-300 dark:border-purple-800 rounded p-4 text-xs font-mono overflow-auto">
-            <strong>// Frontend</strong>
-            <pre>{`const role = localStorage.getItem("role");
-if (role === "admin") {
-  // Acces permis 😬
-}`}</pre>
-          </div>
-
-          <p className="italic text-purple-800 dark:text-purple-100">
-            🔓 Oricine poate rula în consola browserului:
-          </p>
-          <div className="bg-black text-green-400 font-mono p-3 rounded">
+          <div className="bg-black text-green-400 font-mono p-3 rounded text-sm">
             localStorage.setItem("role", "admin")
           </div>
+          <p className="text-sm text-neutral-300">
+            Apoi utilizatorul are acces complet fără login real.
+          </p>
         </section>
 
-        {/* Secure Explanation */}
-        <section className="bg-green-100 dark:bg-green-900/20 border-l-4 border-green-500 p-6 rounded-md shadow space-y-4 text-sm">
-          <h2 className="text-lg font-semibold text-green-700 dark:text-green-200">
-            ✅ Varianta protejată
+        {/* Protected Explanation */}
+        <section className="bg-green-600/10 border border-green-600 rounded-lg p-6 space-y-4">
+          <h2 className="text-xl font-bold text-green-300 flex items-center gap-2">
+            <ShieldCheckIcon className="h-5 w-5" />
+            Varianta protejată
           </h2>
-          <p>
-            Backendul setează o sesiune stocată în <code>req.session</code> și
-            salvată în cookie <code>connect.sid</code>. Aceasta NU poate fi
-            modificată din browser.
+          <p className="text-sm text-neutral-300">
+            Backendul salvează sesiunea în <code>req.session</code>, cu cookie{" "}
+            <code>connect.sid</code>.
           </p>
-
-          <div className="bg-white dark:bg-green-950 border border-green-300 dark:border-green-800 rounded p-4 text-xs font-mono overflow-auto">
-            <strong>// Backend protejat</strong>
-            <pre>{`app.get("/api/admin", (req, res) => {
+          <div className="bg-neutral-900 border border-green-700 rounded p-4 text-xs font-mono overflow-auto">
+            {`app.get("/api/admin", (req, res) => {
   if (req.session.role === "admin") {
     res.send("✅ Acces permis la admin panel");
   } else {
     res.status(403).send("❌ Acces interzis");
   }
-});`}</pre>
+});`}
           </div>
-
-          <ul className="list-disc pl-6 space-y-1 mt-2 text-sm text-gray-800 dark:text-gray-200">
-            <li>✅ Verificarea se face în backend, nu în UI</li>
-            <li>
-              ✅ Cookie-ul <code>connect.sid</code> este HTTP-only
-            </li>
-            <li>✅ Nu poate fi modificat de atacatori</li>
-            <li>✅ Funcționează indiferent dacă frontendul e compromis</li>
+          <ul className="list-disc pl-6 text-sm text-neutral-300 space-y-1">
+            <li>✅ Verificare pe server, nu în UI</li>
+            <li>✅ Cookie HTTP-only</li>
+            <li>✅ Rezistent la modificări din frontend</li>
           </ul>
         </section>
 
         {/* Why Sessions Matter */}
-        <section className="bg-gray-50 dark:bg-gray-800 p-6 rounded shadow space-y-3">
-          <h2 className="text-xl font-bold text-purple-700 dark:text-purple-300">
+        <section className="bg-neutral-800/50 border border-purple-600 rounded-lg p-6 space-y-3">
+          <h2 className="text-lg font-bold text-purple-300">
             🧠 De ce folosim sesiuni și <code>connect.sid</code>?
           </h2>
-          <p>
-            Atunci când te loghezi, serverul creează o sesiune unică (cu un ID)
-            și o trimite ca HTTP-only cookie în browserul tău. Această sesiune
-            este salvată pe server (sau în memorie) și NU poate fi modificată de
-            client.
+          <p className="text-sm text-neutral-300">
+            Serverul creează o sesiune unică la login și trimite un cookie
+            HTTP-only. Acesta nu poate fi modificat din JavaScript.
           </p>
-          <ul className="list-disc pl-6 space-y-1 text-sm">
+          <ul className="list-disc pl-6 text-sm text-neutral-300 space-y-1">
             <li>
-              ✅ Cookie-ul <code>connect.sid</code> e protejat automat de
-              JavaScript (nu apare în <code>document.cookie</code>)
+              ✅ <code>connect.sid</code> e invizibil în{" "}
+              <code>document.cookie</code>.
             </li>
             <li>
-              ✅ <code>req.session</code> este verificat la fiecare cerere –
-              inclusiv rolul tău.
+              ✅ <code>req.session</code> e verificat la fiecare request.
             </li>
-            <li>✅ Nu e nevoie să trimiți tokeni manuali sau localStorage!</li>
+            <li>✅ Fără localStorage, fără tokeni expuși.</li>
           </ul>
-          <p className="text-sm italic text-gray-500 dark:text-gray-400">
-            Astfel, dacă frontendul e compromis, atacatorul NU poate accesa zona
-            de admin – pentru că backendul are control complet.
+          <p className="text-xs italic text-neutral-500">
+            Dacă frontendul e compromis, atacatorul tot nu poate accesa zona
+            protejată.
           </p>
         </section>
       </main>

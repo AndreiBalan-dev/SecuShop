@@ -1,52 +1,21 @@
 @import "tailwindcss";
 @config "./tailwind.config.js";
 
-/* Setări generale */
+/* Basic resets and font */
 body {
-  @apply antialiased box-border;
-  font-family: "Inter", system-ui, sans-serif;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-  background-color: white;
-  color: black;
+  @apply antialiased box-border bg-neutral-950 text-neutral-100 font-sans;
+  transition: background-color 0.2s, color 0.2s;
 }
 
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #18181b;
-    color: white;
-  }
-}
-
-/* Inputuri & Textarea - doar styling de bază */
-input,
-textarea,
-select {
-  @apply px-4 py-2 rounded-md border transition focus:outline-none focus:ring-2;
-}
-
-/* Light Mode */
-@media (prefers-color-scheme: light) {
-  input,
-  textarea,
-  select {
-    @apply border-gray-300 focus:ring-blue-500;
-    background-color: white;
-    color: black;
-  }
-}
-
-/* Dark Mode */
-@media (prefers-color-scheme: dark) {
-  input,
-  textarea,
-  select {
-    @apply border-gray-600 focus:ring-blue-400;
-    background-color: #18181b;
-    color: white;
-  }
-}
-
-/* Box sizing global */
 * {
   box-sizing: border-box;
+}
+
+select {
+  @apply px-4 py-2 rounded-md border border-neutral-700 bg-neutral-900 text-neutral-100 transition focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+textarea,
+input {
+  @apply px-4 py-2 rounded-md border border-neutral-700 transition focus:outline-none focus:ring-1 focus:ring-black;
 }

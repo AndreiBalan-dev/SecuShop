@@ -3,6 +3,10 @@ import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import {
+  ShieldCheckIcon,
+  ExclamationTriangleIcon,
+} from "@heroicons/react/24/outline";
 
 export default function XSSLandingPage() {
   const router = useRouter();
@@ -17,15 +21,17 @@ const clean = sanitizeHtml(userComment);
   return (
     <>
       <Navbar />
-      <main className="max-w-4xl mx-auto px-6 py-16 text-gray-800 dark:text-gray-200 space-y-16">
+      <main className="max-w-5xl mx-auto px-6 py-16 space-y-16 text-neutral-200">
         {/* Title */}
         <section className="text-center space-y-4">
-          <h1 className="text-5xl font-bold text-yellow-500">
+          <h1 className="text-5xl font-extrabold text-yellow-400">
             🧨 XSS (Cross-Site Scripting)
           </h1>
-          <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-300">
-            XSS este o vulnerabilitate care permite rularea de cod JavaScript
-            injectat de atacatori în paginile web vizitate de alți utilizatori.
+          <p className="text-lg leading-relaxed text-neutral-400 max-w-3xl mx-auto">
+            XSS este o vulnerabilitate critică ce permite rularea de cod
+            JavaScript injectat de atacatori în paginile web vizitate de alți
+            utilizatori. În continuare, vei vedea cum funcționează și cum o poți
+            preveni.
           </p>
         </section>
 
@@ -33,78 +39,103 @@ const clean = sanitizeHtml(userComment);
         <section className="grid sm:grid-cols-2 gap-6">
           <button
             onClick={() => router.push("/xss/vulnerable")}
-            className="bg-red-100 hover:bg-red-200 dark:bg-red-900/40 dark:hover:bg-red-900/60 border border-red-400 text-red-500 font-semibold px-6 py-4 rounded-xl shadow-md transition text-left"
+            className="flex flex-col items-start bg-red-600/10 hover:bg-red-600/20 border border-red-600 text-red-300 font-semibold px-6 py-5 rounded-xl shadow transition"
           >
-            ⚠️ Varianta Vulnerabilă
-            <p className="text-sm font-normal mt-1">
-              Codul NU filtrează inputul. Comentariile se afișează direct cu
-              <code> dangerouslySetInnerHTML </code>.
+            <span className="flex items-center gap-2 text-lg">
+              <ExclamationTriangleIcon className="h-6 w-6" />
+              Varianta vulnerabilă
+            </span>
+            <p className="text-sm text-start mt-1">
+              Codul NU filtrează inputul. Comentariile sunt inserate direct în
+              DOM.
             </p>
           </button>
 
           <button
             onClick={() => router.push("/xss/protected")}
-            className="bg-green-100 hover:bg-green-200 dark:bg-green-900/40 dark:hover:bg-green-900/60 border border-green-400 text-green-500 font-semibold px-6 py-4 rounded-xl shadow-md transition text-left"
+            className="flex flex-col items-start bg-green-600/10 hover:bg-green-600/20 border border-green-600 text-green-300 font-semibold px-6 py-5 rounded-xl shadow transition"
           >
-            ✅ Varianta Protejată
-            <p className="text-sm font-normal mt-1">
-              Codul folosește <code>sanitize-html</code> pentru a curăța
-              conținutul și a preveni atacurile XSS.
+            <span className="flex items-center gap-2 text-lg">
+              <ShieldCheckIcon className="h-6 w-6" />
+              Varianta protejată
+            </span>
+            <p className="text-sm mt-1">
+              Codul curăță datele cu <code>sanitize-html</code> pentru a preveni
+              XSS.
             </p>
           </button>
         </section>
 
         {/* Explanation */}
-        <section className="space-y-6">
-          <h2 className="text-2xl font-bold text-yellow-500">
-            🔍 Cum funcționează vulnerabilitatea?
-          </h2>
-          <p>
-            Atunci când inputul utilizatorului este inserat direct în DOM fără
-            filtrare, orice tag HTML (inclusiv <code>{"<script>"}</code>) va fi
-            executat în browser. În React, asta se face prin:
-          </p>
-          <SyntaxHighlighter language="tsx" style={oneDark}>
-            {unsafeCode}
-          </SyntaxHighlighter>
-          <p>
-            Pentru a preveni acest lucru, trebuie să <strong>filtrăm</strong>{" "}
-            inputul înainte de a-l afișa. Exemplu de cod protejat:
-          </p>
-          <SyntaxHighlighter language="tsx" style={oneDark}>
-            {safeCode}
-          </SyntaxHighlighter>
+        <section className="space-y-8">
+          <div className="space-y-3">
+            <h2 className="text-2xl font-bold text-yellow-400">
+              🔍 Cum apare vulnerabilitatea?
+            </h2>
+            <p className="text-neutral-400">
+              Când inputul utilizatorului este inserat în DOM fără nicio
+              filtrare, orice tag HTML sau script este executat în browser:
+            </p>
+            <SyntaxHighlighter language="tsx" style={oneDark}>
+              {unsafeCode}
+            </SyntaxHighlighter>
+            <p className="text-neutral-400">
+              Orice comentariu care conține <code>{"<script>"}</code> va rula
+              automat în browserul altor vizitatori.
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            <h2 className="text-2xl font-bold text-green-400">
+              🛡️ Cum prevenim atacul?
+            </h2>
+            <p className="text-neutral-400">
+              Soluția corectă: <b>filtrarea inputului</b> înainte de afișare.
+              Exemplu de cod sigur:
+            </p>
+            <SyntaxHighlighter language="tsx" style={oneDark}>
+              {safeCode}
+            </SyntaxHighlighter>
+          </div>
         </section>
 
-        {/* Final XSS danger explanation */}
-        <section className="bg-red-100 dark:bg-red-900/20 border-l-4 border-red-500 p-4 rounded-md text-sm space-y-2">
-          <h3 className="text-red-700 dark:text-red-300 font-semibold text-base">
-            🧨 Ce se poate întâmpla în realitate?
+        {/* Danger Explanation */}
+        <section className="bg-red-600/10 border border-red-600 rounded-lg p-6 space-y-3">
+          <h3 className="text-lg font-bold text-red-300 flex items-center gap-2">
+            🚨 Ce se poate întâmpla în realitate?
           </h3>
-          <p className="text-black dark:text-red-100">
-            Atacurile XSS pot părea nevinovate, dar în practică pot compromite
-            complet conturile utilizatorilor. De exemplu:
-          </p>
-          <ul className="list-disc pl-5 text-black dark:text-red-100 space-y-1">
+          <ul className="list-disc pl-6 space-y-1 text-neutral-300 text-sm">
             <li>
-              Un atacator poate fura{" "}
-              <strong>cookie-urile de autentificare</strong> și să se conecteze
-              ca alt utilizator.
+              Furt de <strong>cookie-uri</strong> și compromiterea contului.
             </li>
-            <li>
-              Poate injecta formulare false sau linkuri către site-uri
-              malițioase.
-            </li>
-            <li>
-              Poate crea un keylogger care trimite fiecare tastă apăsată către
-              serverul atacatorului.
-            </li>
+            <li>Injectarea de formulare de phishing.</li>
+            <li>Linkuri către site-uri malițioase.</li>
+            <li>Keyloggere care colectează datele tastate.</li>
           </ul>
-          <p className="text-black dark:text-red-100">
-            Prin această demonstrație vei înțelege diferența dintre o
-            implementare corectă și una periculoasă. Experimentează, observă și
-            protejează!
-          </p>
+          {/* <p className="text-neutral-400 text-sm">
+            În timpul demonstrației practice, vei vedea exact cum aceste
+            scenarii pot fi reproduse.
+          </p> */}
+        </section>
+
+        {/* Educational Summary */}
+        <section className="bg-green-600/10 border border-green-600 rounded-lg p-6 space-y-3">
+          <h3 className="text-lg font-bold text-green-300 flex items-center gap-2">
+            ✅ Cum te protejezi?
+          </h3>
+          <ul className="list-disc pl-6 text-neutral-300 space-y-1 text-sm">
+            <li>Escapează orice input provenit de la utilizatori.</li>
+            <li>
+              Folosește librării precum <code>sanitize-html</code>.
+            </li>
+            <li>
+              Evită <code>dangerouslySetInnerHTML</code> pe cât posibil.
+            </li>
+            <li>Activează Content Security Policy (CSP).</li>
+          </ul>
+          {/* <p className="text-neutral-400 text-sm italic">
+            Vom discuta aceste măsuri pe larg în prezentare.
+          </p> */}
         </section>
       </main>
     </>

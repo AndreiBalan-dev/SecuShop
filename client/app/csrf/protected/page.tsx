@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import Navbar from "@/components/Navbar";
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 
 export default function CSRFProtectedPage() {
   const pathname = usePathname();
@@ -65,80 +65,129 @@ export default function CSRFProtectedPage() {
 
   return (
     <>
-      <Navbar />
-      <main className="max-w-3xl mx-auto px-6 py-12 text-gray-800 dark:text-gray-200 space-y-10">
-        <h1 className="text-4xl font-bold text-green-600">✅ CSRF Protejat</h1>
-
-        <p className="text-sm text-gray-600">
-          Acest formular <strong>verifică tokenul CSRF</strong> înainte de a
-          trimite cererea POST. Orice cerere fără un token valid este{" "}
-          <strong>respinsă</strong> automat de server.
-        </p>
-
-        <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-300 rounded-md">
-          <p className="text-lg font-semibold">
-            💰 Sold actual:{" "}
-            <span className="text-green-700">{balance} RON</span>
-          </p>
+      {/* Navbar */}
+      <header className="bg-green-700 text-white shadow">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <h1 className="text-2xl font-bold flex items-center gap-2">
+            <ShoppingCartIcon className="h-7 w-7" />
+            SecuShop Wallet
+          </h1>
+          <span className="text-xs">Cont utilizator: victim@secushop.test</span>
         </div>
+      </header>
 
-        <button
-          onClick={handleTransfer}
-          disabled={!csrfToken}
-          className="bg-green-600 text-white px-6 py-3 rounded hover:brightness-110 disabled:opacity-50"
-        >
-          Trimite 100 RON altui utilizator
-        </button>
-
-        {status && (
-          <div className="p-4 border rounded bg-green-100 dark:bg-green-900/20 border-green-300 text-green-800 dark:text-green-200">
-            {status}
-          </div>
-        )}
-
-        <div className="pt-8 space-y-4">
-          <h2 className="text-lg font-semibold">📜 Jurnal mock transferuri</h2>
-          {transferLog.length === 0 ? (
-            <p className="text-sm italic text-gray-500">
-              Niciun transfer efectuat în această sesiune.
-            </p>
-          ) : (
-            <ul className="text-sm space-y-2 list-disc pl-6">
-              {transferLog.map((log, i) => (
-                <li key={i}>{log}</li>
-              ))}
-            </ul>
-          )}
-        </div>
-
-        <div className="pt-10 space-y-4">
-          <h2 className="text-lg font-semibold text-red-600">
-            🔐 De ce iframe-ul malițios NU mai funcționează?
+      {/* Hero */}
+      <section className="bg-green-600 text-white py-12">
+        <div className="max-w-7xl mx-auto px-6 text-center space-y-3">
+          <h2 className="text-3xl sm:text-4xl font-bold">
+            Transfer Fonduri (Protejat CSRF)
           </h2>
-          <p className="text-sm text-gray-600">
-            Atacurile CSRF se bazează pe trimiterea automată a cookie-urilor.
-            Totuși, acum cererea este respinsă pentru că{" "}
-            <strong>lipsește tokenul CSRF</strong> — iar un site extern NU poate
-            obține acest token.
-          </p>
-
-          <iframe
-            src={`http://localhost:4000/attacker.html?target=${pathname}`}
-            className="w-full border border-green-300 rounded-md h-28"
-          />
-
-          <p className="text-xs text-gray-400 italic">
-            Acest iframe încearcă să trimită cererea, dar serverul o respinge
-            automat pentru că lipsește tokenul CSRF valid.
+          <p className="text-green-100">
+            Acest formular folosește token CSRF. Cererile neautorizate sunt
+            blocate automat.
           </p>
         </div>
+      </section>
 
-        <div className="pt-10">
-          <a href="/csrf" className="text-sm text-green-600 hover:underline">
-            ← Înapoi la pagina CSRF
-          </a>
+      <main className="bg-gray-50 text-neutral-900 min-h-screen">
+        <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Sidebar */}
+          <aside className="hidden md:block space-y-6">
+            <div className="bg-white border border-neutral-200 rounded shadow p-4">
+              <h3 className="font-semibold mb-3">Contul meu</h3>
+              <ul className="space-y-2 text-sm">
+                <li>• Profil</li>
+                <li>• Istoric comenzi</li>
+                <li className="font-semibold text-green-600">• Portofel</li>
+                <li>• Setări</li>
+              </ul>
+            </div>
+          </aside>
+
+          {/* Main Content */}
+          <div className="md:col-span-2 space-y-8">
+            {/* Info */}
+            <section className="bg-green-50 border border-green-300 text-green-800 p-4 rounded">
+              <p>
+                ✅ Cererile POST necesită tokenul CSRF unic generat per sesiune.
+              </p>
+            </section>
+
+            {/* Balance and Button */}
+            <div className="p-4 bg-white border border-neutral-200 rounded shadow flex justify-between items-center">
+              <p className="text-lg font-semibold">
+                💰 Sold curent:{" "}
+                <span className="text-green-700">{balance} RON</span>
+              </p>
+              <button
+                onClick={handleTransfer}
+                disabled={!csrfToken}
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-medium shadow disabled:opacity-50"
+              >
+                🔒 Trimite 100 RON
+              </button>
+            </div>
+
+            {status && (
+              <div className="p-4 border rounded bg-green-100 border-green-300 text-green-800">
+                {status}
+              </div>
+            )}
+
+            {/* Transaction Log */}
+            <section className="bg-white border border-neutral-200 rounded shadow p-6">
+              <h2 className="text-lg font-semibold mb-4">
+                📜 Istoric tranzacții
+              </h2>
+              {transferLog.length === 0 ? (
+                <p className="text-sm italic text-gray-500">
+                  Niciun transfer efectuat în această sesiune.
+                </p>
+              ) : (
+                <ul className="text-sm space-y-2 list-disc pl-6">
+                  {transferLog.map((log, i) => (
+                    <li key={i}>{log}</li>
+                  ))}
+                </ul>
+              )}
+            </section>
+
+            {/* Iframe Explanation */}
+            <section className="bg-green-50 border border-green-300 p-6 rounded space-y-3">
+              <h2 className="text-lg font-semibold text-green-700">
+                🔐 De ce iframe-ul malițios NU mai funcționează?
+              </h2>
+              <p className="text-sm text-gray-700">
+                Atacurile CSRF se bazează pe trimiterea automată a
+                cookie-urilor. Dar acum cererea este respinsă pentru că{" "}
+                <strong>lipsește tokenul CSRF</strong>, iar un site extern NU îl
+                poate obține.
+              </p>
+              <iframe
+                src={`http://localhost:4000/attacker.html?target=${pathname}`}
+                className="w-full border border-green-300 rounded-md h-28"
+              />
+              <p className="text-xs text-gray-500 italic">
+                Această iframe încearcă să trimită cererea, dar serverul o
+                respinge automat.
+              </p>
+            </section>
+
+            <div className="pt-6">
+              <a
+                href="/csrf"
+                className="text-sm text-green-600 hover:underline"
+              >
+                ← Înapoi la pagina CSRF
+              </a>
+            </div>
+          </div>
         </div>
       </main>
+
+      <footer className="bg-white border-t border-neutral-200 text-neutral-500 text-xs text-center py-6">
+        © 2025 SecuShop™ · Pagina demonstrativă CSRF Protejat
+      </footer>
     </>
   );
 }

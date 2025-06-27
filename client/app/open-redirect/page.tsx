@@ -1,6 +1,11 @@
 "use client";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import {
+  ArrowTopRightOnSquareIcon,
+  ExclamationTriangleIcon,
+  ShieldCheckIcon,
+} from "@heroicons/react/24/outline";
 
 export default function OpenRedirectPage() {
   const router = useRouter();
@@ -8,125 +13,151 @@ export default function OpenRedirectPage() {
   return (
     <>
       <Navbar />
-      <main className="max-w-4xl mx-auto px-6 py-16 text-gray-800 dark:text-gray-200 space-y-14">
-        {/* Header */}
+      <main className="max-w-5xl mx-auto px-6 py-16 space-y-16 text-neutral-200">
+        {/* Title */}
         <section className="text-center space-y-4">
-          <h1 className="text-5xl font-bold text-green-600">
+          <h1 className="text-5xl font-extrabold text-blue-400">
             🔁 Open Redirect
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
-            Open Redirect permite unui atacator să redirecționeze utilizatorii
-            către site-uri externe, uneori malitioase, prin exploatarea unor
-            linkuri aparent inofensive.
+          <p className="text-lg leading-relaxed text-neutral-400 max-w-3xl mx-auto">
+            Open Redirect apare când aplicația permite redirecționarea
+            utilizatorilor către linkuri externe fără validare. Este o
+            vulnerabilitate folosită des în phishing și furt de credențiale.
           </p>
         </section>
 
-        {/* Redirect Options */}
+        {/* Buttons */}
         <section className="grid sm:grid-cols-2 gap-6">
           <button
             onClick={() => router.push("/open-redirect/vulnerable")}
-            className="bg-green-100 hover:bg-green-200 dark:bg-green-900/40 dark:hover:bg-green-900/60 border border-green-400 text-green-600 font-semibold px-6 py-4 rounded-xl shadow-md transition"
+            className="flex flex-col items-start bg-red-600/10 hover:bg-red-600/20 border border-red-600 text-red-300 font-semibold px-6 py-5 rounded-xl shadow transition"
           >
-            ⚠️ Vezi varianta vulnerabilă
+            <span className="flex items-center gap-2 text-lg">
+              <ExclamationTriangleIcon className="h-6 w-6" />
+              Varianta vulnerabilă
+            </span>
+            <p className="text-sm text-start mt-1">
+              Exemplu unde orice URL este acceptat și redirecționarea se face
+              fără restricții.
+            </p>
           </button>
+
           <button
             onClick={() => router.push("/open-redirect/protected")}
-            className="bg-blue-100 hover:bg-blue-200 dark:bg-blue-900/40 dark:hover:bg-blue-900/60 border border-blue-400 text-blue-600 font-semibold px-6 py-4 rounded-xl shadow-md transition"
+            className="flex flex-col items-start bg-green-600/10 hover:bg-green-600/20 border border-green-600 text-green-300 font-semibold px-6 py-5 rounded-xl shadow transition"
           >
-            ✅ Vezi varianta protejată
+            <span className="flex items-center gap-2 text-lg">
+              <ShieldCheckIcon className="h-6 w-6" />
+              Varianta protejată
+            </span>
+            <p className="text-sm mt-1">
+              Exemplu cu verificare strictă a destinației și redirect controlat.
+            </p>
           </button>
         </section>
 
-        {/* Ce este Open Redirect */}
-        <section className="bg-green-100 dark:bg-green-900/30 border-l-4 border-green-500 p-5 rounded shadow space-y-3 text-sm">
-          <h2 className="text-lg font-semibold text-green-700 dark:text-green-200">
-            🔎 Ce este Open Redirect?
+        {/* What is Open Redirect */}
+        <section className="bg-neutral-800/50 border border-blue-600 rounded-lg p-6 space-y-4">
+          <h2 className="text-2xl font-bold text-blue-300">
+            🔍 Ce este Open Redirect?
           </h2>
-          <p>
-            Este o vulnerabilitate care apare când o aplicație permite
-            redirecționarea către orice URL extern fără verificare. De obicei
-            exploatată prin URL-uri precum:
+          <p className="text-sm text-neutral-300">
+            Este atunci când aplicația primește un parametru <code>?next=</code>{" "}
+            sau similar și îl folosește pentru a redirecționa utilizatorul fără
+            validare.
           </p>
-          <div className="bg-white dark:bg-green-950 border border-green-300 dark:border-green-800 rounded p-4 text-xs font-mono overflow-auto">
-            http://securizat.ro/redirect?next=http://malicious.com
+          <div className="bg-neutral-900 border border-neutral-700 rounded p-4 text-xs font-mono overflow-auto">
+            https://exemplu.com/redirect?next=http://malicious-site.com
           </div>
-          <p>
-            Un atacator poate păcăli un utilizator să creadă că e pe un site de
-            încredere și apoi să-l redirecționeze către un site periculos.
+          <p className="text-sm text-neutral-400">
+            Utilizatorii pot fi păcăliți să creadă că fac click pe un link
+            legitim, dar de fapt ajung pe un site fals.
           </p>
         </section>
 
-        {/* Real-world example */}
-        <section className="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-500 p-5 rounded shadow space-y-3 text-sm">
-          <h2 className="text-lg font-semibold text-yellow-700 dark:text-yellow-200">
+        {/* Example of phishing */}
+        <section className="bg-yellow-600/10 border border-yellow-600 rounded-lg p-6 space-y-3">
+          <h2 className="text-xl font-bold text-yellow-300 flex items-center gap-2">
             🎣 Exemplu real de phishing
           </h2>
-          <p>Utilizatorul primește un link pe email sau social media:</p>
-          <div className="bg-white dark:bg-yellow-950 border border-yellow-300 dark:border-yellow-800 rounded p-4 text-xs font-mono overflow-auto">
-            https://site-bancar.com/redirect?next=http://fake-banca-login.com
+          <p className="text-sm text-neutral-300">
+            Un atacator poate trimite un link cu redirect către un site
+            malițios:
+          </p>
+          <div className="bg-neutral-900 border border-neutral-700 rounded p-4 text-xs font-mono overflow-auto">
+            https://banca.ro/redirect?next=http://fake-login.com
           </div>
-          <p>
-            După ce face click, ajunge pe un site fals unde i se cere să se
-            autentifice. Datele pot fi furate fără ca el să observe.
+          <p className="text-sm text-neutral-400">
+            După click, utilizatorul ajunge pe un formular de login fals unde
+            datele lui sunt furate.
           </p>
         </section>
 
-        {/* Comparatie */}
-        <section className="bg-white dark:bg-gray-800 border border-blue-300 dark:border-blue-700 p-6 rounded shadow space-y-3 text-sm">
-          <h2 className="text-lg font-bold text-blue-700 dark:text-blue-300">
+        {/* Visual Flow */}
+        <section className="bg-neutral-800/50 border border-yellow-600 rounded-lg p-6 space-y-4">
+          <h2 className="text-xl font-bold text-yellow-400">
+            📊 Fluxul unui atac Open Redirect
+          </h2>
+          <div className="w-full border border-dashed border-neutral-600 rounded bg-neutral-900 h-64 flex items-center justify-center text-neutral-600">
+            🖼️ [Aici inserezi o diagramă vizuală a fluxului Open Redirect]
+          </div>
+        </section>
+
+        {/* Comparison */}
+        <section className="space-y-6">
+          <h2 className="text-2xl font-bold text-blue-300">
             🧠 Vulnerabil vs Protejat
           </h2>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>
-              <strong className="text-red-600">❌ Vulnerabil:</strong> orice
-              link din parametru este acceptat. Nicio validare.
-            </li>
-            <li>
-              <strong className="text-green-600">✅ Protejat:</strong> se
-              acceptă doar linkuri whitelisted (ex: propriul tău domeniu sau
-              doar căi interne: <code>/home</code>, <code>/profile</code>).
-            </li>
-            <li>
-              <strong className="text-gray-600">🔗</strong> Ideal este să eviți
-              complet redirecturi externe sau să folosești tokenuri semnate.
-            </li>
-          </ul>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-red-600/10 border border-red-600 rounded-lg p-4 space-y-2">
+              <h3 className="flex items-center gap-2 text-red-300 font-semibold text-lg">
+                <ExclamationTriangleIcon className="h-5 w-5" />
+                Varianta vulnerabilă
+              </h3>
+              <p className="text-sm text-neutral-300">
+                Orice URL din parametru este acceptat. Nu există validare.
+              </p>
+            </div>
+            <div className="bg-green-600/10 border border-green-600 rounded-lg p-4 space-y-2">
+              <h3 className="flex items-center gap-2 text-green-300 font-semibold text-lg">
+                <ShieldCheckIcon className="h-5 w-5" />
+                Varianta protejată
+              </h3>
+              <p className="text-sm text-neutral-300">
+                Doar linkuri whitelisted sau căi interne sunt permise.
+              </p>
+            </div>
+          </div>
         </section>
 
         {/* Best Practices */}
-        <section className="bg-gray-100 dark:bg-gray-900 p-6 rounded-lg shadow space-y-4">
-          <h2 className="text-xl font-bold text-green-800 dark:text-green-300">
-            💡 Best Practices pentru protecție
+        <section className="bg-green-600/10 border border-green-600 rounded-lg p-6 space-y-4">
+          <h2 className="text-xl font-bold text-green-300">
+            ✅ Cum previi Open Redirect?
           </h2>
-          <ul className="list-disc pl-6 space-y-2 text-sm text-gray-800 dark:text-gray-200">
+          <ul className="list-disc pl-6 text-sm space-y-2 text-neutral-300">
             <li>
-              ✅ Validează parametrii URL cu <code>new URL()</code> și verifică
-              hostname-ul.
+              Validează parametrii cu <code>new URL()</code> și verifică
+              domeniul.
             </li>
             <li>
-              ✅ Permite doar redirecturi interne (cu <code>/</code> la
-              început).
+              Permite doar redirecturi interne (<code>/dashboard</code>,{" "}
+              <code>/home</code>).
             </li>
             <li>
-              ✅ Nu accepta redirecturi cu <code>http://</code> sau{" "}
-              <code>https://</code> externe decât dacă ai whitelist clar.
+              Dacă redirect extern este necesar, afișează o pagină de
+              confirmare.
             </li>
-            <li>
-              ✅ Dacă e necesar redirect extern, folosește o pagină intermediară
-              de tip: „Urmează să părăsești site-ul...”
-            </li>
+            <li>Nu presupune că parametrii URL sunt siguri.</li>
           </ul>
         </section>
 
-        {/* Recap Banner */}
-        <section className="bg-gradient-to-r from-blue-100 to-green-100 dark:from-blue-900/20 dark:to-green-900/20 p-6 rounded-lg shadow text-sm">
-          <h2 className="text-lg font-bold mb-2 text-blue-700 dark:text-blue-300">
-            🔐 Recapitulare
-          </h2>
-          <p>
-            Redirecționarea este o unealtă utilă dar periculoasă dacă nu e
-            controlată. Aplică întotdeauna verificări stricte pe backend, educă
-            utilizatorii și nu presupune că parametrii URL sunt siguri.
+        {/* Recap */}
+        <section className="bg-gradient-to-r from-blue-800/30 to-green-800/30 border border-blue-600/30 rounded-lg p-6 space-y-3">
+          <h2 className="text-lg font-bold text-blue-300">🔐 Recapitulare</h2>
+          <p className="text-sm text-neutral-300">
+            Open Redirect este simplu de exploatat și greu de detectat de
+            utilizatori. Fii proactiv: validează, limitează și educă.
           </p>
         </section>
       </main>
