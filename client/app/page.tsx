@@ -14,7 +14,7 @@ export default function Home() {
             <strong>SecuShop</strong> este o platformă eCommerce simulată,
             creată pentru a demonstra vulnerabilități reale de securitate și
             soluții eficiente împotriva acestora. Află cum acționează atacatorii
-            — și cum să-ți aperi aplicația corect.
+            - și cum să-ți aperi aplicația corect.
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-400">
             Realizat de <strong>Bălan Andrei Marian</strong> pentru{" "}
@@ -62,7 +62,7 @@ export default function Home() {
               >
                 <h3 className="text-pink-600 font-bold text-lg">🛡️ CSRF</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Execută acțiuni neautorizate în numele utilizatorilor — și
+                  Execută acțiuni neautorizate în numele utilizatorilor - și
                   apără-te cu tokeni și anteturi personalizate.
                 </p>
               </a>
@@ -91,7 +91,7 @@ export default function Home() {
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   Redirecționează utilizatori spre site-uri malițioase prin
-                  linkuri nesigure — și evită asta prin validare.
+                  linkuri nesigure - și evită asta prin validare.
                 </p>
               </a>
             </li>
