@@ -98,8 +98,12 @@ export default function OpenRedirectPage() {
           <h2 className="text-xl font-bold text-yellow-400">
             📊 Fluxul unui atac Open Redirect
           </h2>
-          <div className="w-full border border-dashed border-neutral-600 rounded bg-neutral-900 h-64 flex items-center justify-center text-neutral-600">
-            🖼️ [Aici inserezi o diagramă vizuală a fluxului Open Redirect]
+          <div className="w-full border border-dashed border-neutral-600 rounded bg-neutral-900 overflow-hidden">
+            <img
+              src="https://i.imgur.com/gWRfKeS.png"
+              alt="Fluxul unui atac Open Redirect"
+              className="w-full object-contain"
+            />
           </div>
         </section>
 

@@ -96,11 +96,19 @@ router.post("/transfer-protected", csrfProtection, (req, res) => {
           <h2 className="text-xl font-bold text-yellow-300">
             📊 Fluxul unui atac CSRF
           </h2>
-          <div className="w-full border border-dashed border-neutral-600 rounded bg-neutral-900 h-64 flex items-center justify-center text-neutral-600">
-            🖼️ [Aici inserezi o diagramă vizuală cu fluxul atacului]
+          <div className="w-full space-y-4">
+            <img
+              src="https://i.imgur.com/hcFpzhz.png"
+              alt="Varianta vulnerabila"
+              className="w-full rounded border border-neutral-700"
+            />
+            <img
+              src="https://i.imgur.com/Ofn5yAs.png"
+              alt="Varianta protejata"
+              className="w-full rounded border border-neutral-700"
+            />
           </div>
         </section>
-
         {/* Code Comparison */}
         <section className="space-y-6">
           <h2 className="text-2xl font-bold text-pink-300">

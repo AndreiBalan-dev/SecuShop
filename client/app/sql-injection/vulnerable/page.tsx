@@ -179,16 +179,18 @@ export default function SQLInjectionVulnerable() {
                       key={p.id}
                       className="border border-neutral-200 bg-white rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col"
                     >
-                      <div className="h-48 bg-neutral-100 rounded mb-3 flex items-center justify-center text-neutral-400 text-xs">
-                        Imagine produs
-                      </div>
+                      <img
+                        src="https://i.imgur.com/kcjqKCC.png"
+                        alt={p.name}
+                        className="h-48 w-full object-contain bg-neutral-100 rounded mb-3"
+                      />
                       <div className="font-semibold text-base mb-1">
                         {p.name}
                       </div>
                       <div className="text-sm text-neutral-500 mb-4">
                         {p.price} RON
                       </div>
-                      <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm py-2 rounded font-medium mt-auto">
+                      <button className="bg-green-600 hover:bg-green-700 text-white text-sm py-2 rounded font-medium mt-auto">
                         🛒 Adaugă în coș
                       </button>
                     </div>

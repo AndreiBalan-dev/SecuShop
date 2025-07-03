@@ -159,9 +159,11 @@ export default function SQLInjectionProtected() {
                       key={p.id}
                       className="border border-neutral-200 bg-white rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col"
                     >
-                      <div className="h-48 bg-neutral-100 rounded mb-3 flex items-center justify-center text-neutral-400 text-xs">
-                        Imagine produs
-                      </div>
+                      <img
+                        src="https://i.imgur.com/kcjqKCC.png"
+                        alt={p.name}
+                        className="h-48 w-full object-contain bg-neutral-100 rounded mb-3"
+                      />
                       <div className="font-semibold text-base mb-1">
                         {p.name}
                       </div>

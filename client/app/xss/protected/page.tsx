@@ -145,7 +145,7 @@ export default function XSSProtectedPage() {
             {/* Produs */}
             <section className="bg-white border border-neutral-200 rounded shadow p-6 flex flex-col sm:flex-row gap-6">
               <img
-                src="/sample-product.jpg"
+                src="https://i.imgur.com/OR7SY28.png"
                 alt="Mouse Gamer RGB"
                 className="w-full sm:w-56 rounded"
               />

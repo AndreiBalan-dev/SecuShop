@@ -96,8 +96,12 @@ await prisma.$queryRaw(
             Diagrama de mai jos arată cum inputul nefiltrat compromite baza de
             date:
           </p>
-          <div className="w-full border border-dashed border-neutral-600 rounded bg-neutral-900 h-64 flex items-center justify-center text-neutral-600">
-            🖼️ [Aici inserezi o diagramă vizuală cu fluxul SQL Injection]
+          <div className="w-full border border-dashed border-neutral-600 rounded bg-neutral-900 overflow-hidden">
+            <img
+              src="https://i.imgur.com/GKAbxig.png"
+              alt="Fluxul unui atac SQL Injection"
+              className="w-full object-contain"
+            />
           </div>
         </section>
 
